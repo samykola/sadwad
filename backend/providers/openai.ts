@@ -1,0 +1,2 @@
+import axios from 'axios';
+export class OpenAIProvider{ constructor(private c:{apiKey:string;model:string}){} async complete(m:{role:string;content:string}[]){ const r=await axios.post('https://api.openai.com/v1/chat/completions',{model:this.c.model,messages:m},{headers:{Authorization:'Bearer '+this.c.apiKey}}); return r.data; } async test(){ try{ await this.complete([{role:'user',content:'ping'}]); return true; }catch{ return false; } } }

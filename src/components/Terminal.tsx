@@ -1,0 +1,3 @@
+import React,{useEffect,useRef} from 'react';
+import {useStore} from '../stores/useStore';
+export default function Terminal(){ const logs=useStore(s=>s.logs); const ref=useRef<HTMLDivElement>(null); useEffect(()=>{ ref.current?.scrollTo({top:ref.current.scrollHeight}); },[logs]); return (<div ref={ref} className="h-40 bg-black border-t border-border overflow-y-auto p-2 font-mono text-[11px]">{logs.length===0&&<div className="text-neutral-600">Bridge output will appear here...</div>}{logs.map((l,i)=>(<div key={i} className={l.stream==='stderr'?'text-red-400':l.stream==='stdout'?'text-green-400':'text-neutral-500'}>{l.text}</div>))}</div>); }

@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap');
+
+:root{
+  --ink:#0e1c21; --plum:#142830; --raised:#1c343d; --line:#274550;
+  --chalk:#eae6e1; --dim:#85a0a8; --accent:#eaa79c; --cool:#79c2ba;
+  --ui:"Vazirmatn", "Instrument Sans","Segoe UI",system-ui,sans-serif;
+  --head:"Bricolage Grotesque","Vazirmatn","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body,#root{height:100%; background: transparent !important; overflow: hidden;}
+body{color:var(--chalk);font:14px/1.45 var(--ui);}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:focus-visible,textarea:focus-visible,.scene:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.app{
+  display:flex;height:100vh;
+  background:var(--ink);
+  border-radius:12px; border:1px solid var(--line);
+  overflow:hidden; position:relative;
+}
+
+.window-controls { position: absolute; top: 0; right: 0; display: flex; z-index: 100; }
+.window-controls button {
+  width: 46px; height: 36px; display: grid; place-items: center; color: var(--dim); transition: all 0.2s;
+  font-family: 'Segoe MDL2 Assets', sans-serif; font-size: 10px;
+}
+.window-controls button:hover { background: rgba(255,255,255,0.1); color: var(--chalk); }
+.window-controls button.close-btn:hover { background: #e81123; color: white; }
+
+/* اسکرول‌بار سفارشی */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+
+/* ---------- sidebar ---------- */
+.side{width:268px;flex:none;background:var(--plum);border-right:1px solid var(--line);display:flex;flex-direction:column;transition:margin .22s}
+.app.closed .side{margin-left:-268px}
+.brand{display:flex;align-items:center;gap:10px;padding:16px 16px 14px;font:700 19px var(--head);letter-spacing:-.2px; -webkit-app-region: drag; cursor: grab;}
+.brand svg{width:24px;height:24px;color:var(--accent); pointer-events: none;}
+.brand span { pointer-events: none; }
+.brand button{margin-left:auto;color:var(--dim);padding:4px;border-radius:8px;display:grid; -webkit-app-region: no-drag;}
+.brand button:hover,.nav button:hover{background:var(--raised);color:var(--chalk)}
+.nav{padding:0 10px}
+.nav button{display:flex;align-items:center;gap:10px;width:100%;height:36px;padding:0 10px;border-radius:10px;color:#c4d3d6;text-align:left}
+.nav .primary{background:var(--accent);color:#33160f;font-weight:600;margin-bottom:6px}
+.nav .primary:hover{background:#f2bcb2;color:#33160f}
+.group{padding:20px 20px 6px;color:var(--dim);font-size:12.5px}
+.scenes{flex:1;overflow:auto;padding:0 10px}
+.scene{display:flex;align-items:center;gap:10px;height:38px;padding:0 10px;border-radius:10px;cursor:pointer;color:#d8e2e2}
+.scene:hover{background:var(--raised)}
+.scene.on{background:var(--raised);box-shadow:inset 2px 0 0 var(--accent);color:#fff}
+.scene svg{width:15px;height:15px;color:var(--dim)}
+.scene.on svg{color:var(--accent)}
+.scene span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scene small{color:var(--dim);font-size:12px}
+.foot{padding:12px 14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.link{display:flex;align-items:center;gap:8px;font-size:13px;color:#c4d3d6}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--cool);box-shadow:0 0 0 3px rgba(121,194,186,.18)}
+.dot.off{background:#e06c75;box-shadow:0 0 0 3px rgba(224,108,117,.18)}
+.me{display:flex;align-items:center;gap:9px}
+.av{width:26px;height:26px;border-radius:8px;background:var(--accent);color:#33160f;display:grid;place-items:center;font-weight:600;font-size:13px}
+.me small{color:var(--dim)}
+
+/* ---------- main ---------- */
+.main{flex:1;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px 64px; height: 100vh;}
+.main.chat-active { justify-content: flex-start; padding: 0; }
+.open-btn{position:absolute;top:14px;left:14px;color:var(--dim);padding:6px;border-radius:8px;display:none; z-index: 50;}
+.app.closed .open-btn{display:grid}
+.open-btn:hover{background:var(--raised);color:var(--chalk)}
+.stage{width:min(680px,100%);display:flex;flex-direction:column;align-items:center}
+#hero{display:block;cursor:grab;touch-action:none}
+#hero:active{cursor:grabbing}
+h1{font:500 36px/1.1 var(--head);letter-spacing:-.8px;margin:6px 0 26px;text-align:center}
+
+.box{width:100%;background:var(--plum);border:1px solid var(--line);border-radius:20px;padding:14px 14px 10px 18px;transition:border-color .15s}
+.box:focus-within{border-color:#7a504b}
+textarea{width:100%;height:64px;background:none;border:0;outline:0;resize:none;color:var(--chalk);font:400 15.5px/1.55 var(--ui); direction: rtl;}
+textarea::placeholder{color:#6b8890}
+.row{display:flex;align-items:center;gap:8px}
+.row .sp{flex:1}
+.pill{display:flex;background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:2px}
+.pill button{padding:3px 9px;border-radius:8px;font-size:13px;color:var(--dim)}
+.pill button[aria-pressed=true]{background:var(--raised);color:var(--chalk)}
+.icon{color:var(--dim);padding:7px;border-radius:10px;display:grid}
+.icon:hover{background:var(--raised);color:var(--chalk)}
+.detail{font-size:13px;color:var(--dim);padding:6px 9px;border-radius:10px}
+.detail:hover{background:var(--raised)}
+.detail b{color:var(--chalk);font-weight:500}
+.go{background:var(--accent);color:#33160f;border-radius:12px;width:36px;height:34px;display:grid;place-items:center;transition:opacity .15s}
+.go:disabled{opacity:.35;cursor:default}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.chips button{border:1px solid var(--line);border-radius:999px;padding:6px 13px;color:#c4d3d6;font-size:13px}
+.chips button:hover{border-color:var(--accent);color:#fff}
+
+/* ---------- Timeline (Claude Style) ---------- */
+.timeline-container {
+  background: var(--plum); border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 16px; flex-shrink: 0;
+  max-height: 240px; overflow-y: auto;
+}
+.timeline-title {
+  font-size: 14px; font-weight: 600; color: var(--dim); margin-bottom: 16px; display: flex; justify-content: space-between;
+}
+.timeline-item {
+  display: flex; gap: 12px; position: relative; padding-bottom: 24px;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-marker {
+  position: relative; display: flex; justify-content: center; width: 16px;
+}
+.timeline-circle {
+  width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--dim);
+  background: var(--plum); z-index: 2; display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease; flex-shrink: 0;
+}
+.timeline-line {
+  position: absolute; top: 16px; bottom: -24px; width: 2px; background: var(--line); z-index: 1;
+}
+.timeline-item:last-child .timeline-line { display: none; }
+/* Done */
+.timeline-item.done .timeline-circle { background: var(--cool); border-color: var(--cool); }
+.timeline-item.done .timeline-circle::after { content: '✓'; color: #000; font-size: 10px; font-weight: bold; }
+.timeline-item.done .timeline-line { background: var(--cool); }
+.timeline-item.done .timeline-content { color: var(--dim); text-decoration: line-through; }
+/* Active */
+.timeline-item.active .timeline-circle {
+  border-color: var(--accent); border-top-color: transparent; animation: spin 1s linear infinite;
+}
+.timeline-item.active .timeline-content { color: var(--chalk); font-weight: 500; }
+.timeline-content { flex: 1; font-size: 14px; color: var(--dim); padding-top: 0px; line-height: 1.5; }
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* Chat Layout Fixed */
+.chat-wrapper { display: flex; flex-direction: column; width: 100%; height: 100%; max-width: 800px; margin: 0 auto; padding: 16px; overflow: hidden; }
+.chat-messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 24px; padding: 16px 0; }
+.code-block { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 13px; color: #c9d1d9; overflow-x: auto; direction: ltr; text-align: left; white-space: pre; margin-top: 8px; }
+.chat-input-wrapper { flex-shrink: 0; padding-top: 16px; }
+.next-task-btn { width: 100%; margin-top: 12px; padding: 10px; background: var(--accent); color: #33160f; font-weight: bold; border-radius: 8px; border: none; cursor: pointer; transition: opacity 0.2s; }
+.next-task-btn:hover { opacity: 0.8; }
+.next-task-btn:disabled { opacity: 0.5; cursor: not-allowed; }

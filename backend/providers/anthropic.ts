@@ -1,0 +1,2 @@
+import axios from 'axios';
+export class AnthropicProvider{ constructor(private c:{apiKey:string;model:string}){} async complete(m:{role:string;content:string}[]){ const sys=m.filter(x=>x.role==='system').map(x=>x.content).join('\n'); const msgs=m.filter(x=>x.role!=='system'); const r=await axios.post('https://api.anthropic.com/v1/messages',{model:this.c.model,max_tokens:4096,system:sys,messages:msgs},{headers:{'x-api-key':this.c.apiKey,'anthropic-version':'2023-06-01'}}); return r.data; } }
